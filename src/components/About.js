@@ -1,56 +1,128 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles.css"; // Global styles
-import Member1 from "../assets/sarkphoto.jpg";
-import Member2 from "../assets/sinha.jpg";
+import { Users, Hexagon, Atom } from "lucide-react";
+import "../About.css";
 
-const About = () => {
+const AboutPage = () => {
+  // Sample team member data - replace with actual images when available
+  const teamMembers = [
+    {
+      name: "Sarthak Sisodia",
+      role: "ML and React Developer",
+      image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80"
+    },
+    {
+      name: "Aditya Sinha",
+      role: "ML and Backend Developer",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80"
+    }
+  ];
+
   return (
-    <div className="about-container">
-      {/* Header */}
-      <header className="header">
-        <h1 className="header-title">Guava Disease Prediction</h1>
-        <nav className="nav-links">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/about" className="nav-link">About</Link>
-          <Link to="/upload" className="nav-link">Upload</Link>
-        </nav>
-      </header>
-
-      {/* Main Content */}
-      <div className="about-content">
-        <h1 className="about-title">About Us</h1>
-        <p className="about-description">
-          Our mission is to help farmers and researchers detect guava diseases like 
-          <strong> Anthracnose</strong> and <strong>Fruit Fly</strong> using AI-powered image recognition.
-        </p>
-        <p className="about-description">
-          Our AI model is trained on thousands of images to ensure accurate and reliable results.
-          We aim to make disease detection **easy, fast, and accessible** for everyone.
-        </p>
-
-        {/* Team Section */}
-        <h2 className="team-title">Meet Our Team</h2>
-        <div className="team-container">
-          <div className="team-member">
-            <img src={Member1} alt="Sarthak" className="team-image" />
-            <h3 className="team-name">Sarthak Sisodia</h3>
-            <p className="team-role">ML and React Developer</p>
-          </div>
-          <div className="team-member">
-            <img src={Member2} alt="Member 2" className="team-image" />
-            <h3 className="team-name">Aditya Sinha</h3>
-            <p className="team-role">ML and Backend Developer</p>
-          </div>
-        </div>
+    <div className="futuristic-container">
+      {/* Animated background elements */}
+      <div className="wave-container">
+        <div className="wave wave1"></div>
+        <div className="wave wave2"></div>
+        <div className="wave wave3"></div>
       </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <p>&copy; 2025 Guava Disease Prediction. All rights reserved.</p>
+      {/* Floating hexagons */}
+      <div className="hexagon-container">
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className={`floating-hexagon hex-${i}`}></div>
+        ))}
+      </div>
+
+      {/* Header Section */}
+      <header className="neo-header">
+        <div className="header-content">
+          <div className="logo-container">
+            <Hexagon className="logo-icon" />
+            <h2 className="header-title">GuavaVision <span className="highlight">AI</span></h2>
+          </div>
+          <nav className="nav-links">
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/about" className="nav-link">About</Link>
+            <Link to="/upload" className="nav-link">Upload</Link>
+          </nav>
+        </div>
+      </header>
+
+      {/* About Section */}
+      <section className="about-section">
+        <div className="about-content">
+          <div className="about-header">
+            <h1 className="about-title">About <span className="highlight">GuavaVision AI</span></h1>
+            <div className="glowing-line"></div>
+          </div>
+          
+          <div className="about-card">
+            <div className="mission-vision">
+              <div className="mission-container">
+                <h2 className="section-subtitle">Our Mission</h2>
+                <p className="about-text">
+                  GuavaVision AI is dedicated to revolutionizing agricultural disease detection through cutting-edge artificial intelligence. 
+                  Our advanced neural networks can identify guava diseases like <span className="highlight">Anthracnose</span> and 
+                  <span className="highlight"> Fruit Fly</span> infestations with unprecedented accuracy and speed.
+                </p>
+              </div>
+              
+              <div className="tech-circle about-visual">
+                <div className="circle-content">
+                  <Atom size={40} className="atom-icon" />
+                </div>
+                <div className="orbit orbit1"></div>
+                <div className="orbit orbit2"></div>
+                <div className="orbit orbit3"></div>
+              </div>
+            </div>
+            
+            <div className="about-detail">
+              <p className="about-text">
+                Our AI model is trained on thousands of high-resolution images across diverse environmental conditions,
+                enabling it to achieve 99.8% accuracy in disease identification. We aim to make disease detection
+                <span className="highlight"> easy, fast, and accessible</span> for farmers, researchers, and agricultural specialists worldwide.
+              </p>
+            </div>
+          </div>
+
+          {/* Team Section */}
+          <div className="team-section">
+            <h2 className="section-subtitle">The <span className="highlight">Team</span></h2>
+            <div className="glowing-line small"></div>
+            
+            <div className="team-container">
+              {teamMembers.map((member, index) => (
+                <div key={index} className="team-card">
+                  <div className="team-image-container">
+                    <img src={member.image} alt={member.name} className="team-image" />
+                    <div className="image-glow"></div>
+                  </div>
+                  <h3 className="team-name">{member.name}</h3>
+                  <p className="team-role">{member.role}</p>
+                  <div className="card-glow"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      <footer className="neo-footer">
+        <div className="footer-content">
+          <div className="footer-text">
+            <h3>GuavaVision <span className="highlight">AI</span></h3>
+            <p>Revolutionizing agricultural technology with advanced computer vision.</p>
+          </div>
+          <div className="footer-divider"></div>
+          <p className="copyright">© 2025 GuavaVision AI. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );
 };
 
-export default About;
+export default AboutPage;

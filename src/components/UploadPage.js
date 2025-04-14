@@ -1,17 +1,32 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../styles.css";
+import { Upload, AlertCircle, CheckCircle, ArrowLeft } from "lucide-react";
+import "../Upload.css";
 
 const UploadPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [solution, setSolution] = useState(""); // New state for solution text
+  const [solution, setSolution] = useState(""); 
+  const [preview, setPreview] = useState(null);
 
   // Handle file selection
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    
+    // Create image preview
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(null);
+    }
   };
 
   // Handle form submission
@@ -33,11 +48,11 @@ const UploadPage = () => {
       });
 
       const data = await response.json();
-      const predictedDisease = data.disease; // API should return {"disease": "Anthracnose"}
+      const predictedDisease = data.disease; 
 
       setPrediction(predictedDisease);
       setMessage(getDiseaseMessage(predictedDisease));
-      setSolution(getDiseaseSolution(predictedDisease)); // Set solution based on disease
+      setSolution(getDiseaseSolution(predictedDisease)); 
     } catch (error) {
       console.error("Error uploading image:", error);
       alert("Error processing the image. Try again.");
@@ -84,30 +99,112 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="upload-container">
-      <header className="header">
-        <h2 className="header-title">Guava Disease Detection</h2>
-        <nav className="nav-links">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/about" className="nav-link">About</Link>
-        </nav>
+    <div className="futuristic-container">
+      {/* Animated background elements */}
+      <div className="wave-container">
+        <div className="wave wave1"></div>
+        <div className="wave wave2"></div>
+        <div className="wave wave3"></div>
+      </div>
+
+      {/* Floating hexagons */}
+      <div className="hexagon-container">
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className={`floating-hexagon hex-${i}`}></div>
+        ))}
+      </div>
+
+      {/* Header Section */}
+      <header className="neo-header">
+        <div className="header-content">
+          <div className="logo-container">
+            <Link to="/" className="back-button">
+              <ArrowLeft className="back-icon" />
+              <span>Back to Home</span>
+            </Link>
+          </div>
+          <h2 className="header-title">GuavaVision <span className="highlight">AI</span></h2>
+        </div>
       </header>
 
-      <h1 className="header-title-text">Upload Guava Image for Disease Detection</h1>
-      <input className="upload-some" type="file" accept="image/*" onChange={handleFileChange} />
-      <button className="upload-img-button" onClick={handleUpload} disabled={loading}>
-        {loading ? "Checking..." : "Upload & Predict"}
-      </button>
-
-      {prediction && (
-        <div className="prediction-result">
-          <h2 className="disease-name">{message}</h2>
-          <p className="disease-solution">{solution}</p>
+      <div className="upload-section">
+        <div className="upload-content">
+          <h1 className="upload-title">
+            <span className="highlight">Upload</span> & Analyze
+          </h1>
+          <div className="glowing-line"></div>
+          <p className="upload-description">
+            Upload your guava image for instant disease detection using our advanced AI technology.
+          </p>
+          
+          <div className="upload-area">
+            <label className="file-input-label">
+              <input 
+                type="file" 
+                accept="image/*" 
+                onChange={handleFileChange} 
+                className="file-input"
+              />
+              <div className="upload-icon-container">
+                <Upload size={24} className="upload-icon" />
+                <span>Select Image</span>
+              </div>
+            </label>
+            
+            {preview && (
+              <div className="image-preview">
+                <img src={preview} alt="Preview" />
+              </div>
+            )}
+            
+            <button 
+              onClick={handleUpload} 
+              disabled={loading} 
+              className="analyze-button"
+            >
+              {loading ? (
+                <div className="loading-container">
+                  <div className="loading-spinner"></div>
+                  <span>Analyzing...</span>
+                </div>
+              ) : (
+                <>
+                  <span>Analyze Image</span>
+                  <div className="button-glow"></div>
+                </>
+              )}
+            </button>
+          </div>
+          
+          {prediction && (
+            <div className="result-container">
+              <div className="result-header">
+                {prediction === "Healthy" ? (
+                  <CheckCircle size={32} className="result-icon healthy" />
+                ) : (
+                  <AlertCircle size={32} className="result-icon disease" />
+                )}
+                <h2 className="result-title">{message}</h2>
+              </div>
+              <div className="solution-container">
+                <h3 className="solution-header">Treatment Protocol:</h3>
+                <p className="solution-text">{solution}</p>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
-      <footer className="footer">
-        <p>© 2025 Guava Disease Prediction. All rights reserved.</p>
+      {/* Footer Section */}
+      <footer className="neo-footer">
+        <div className="footer-content">
+          <div className="footer-text">
+            <h3>GuavaVision <span className="highlight">AI</span></h3>
+            <p>Revolutionizing agricultural technology with advanced computer vision.</p>
+          </div>
+          <div className="footer-divider"></div>
+          <p className="copyright">© 2025 GuavaVision AI. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );
